@@ -1,8 +1,10 @@
-/*napraviti funkciju koja će rovjeravati da li je lista uzlazno sortirana.
-prethodno, listu popunjava korisnik svojim unosima.
-funkcija treba vratiti true ili false.
-na kraju programa korisniku ispisati da li je lista sortirana ili nije.
- */
+/*
+Statistika riječi
+Napravi program koji učitava rečenicu i ispisuje:
+Sve riječi duže od 5 slova
+Najdužu riječ
+Prosječnu duljinu riječi
+*/
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,30 +14,37 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        List<Integer> listaBrojeva = new ArrayList<>();
-        System.out.println("******** Unos 5 brojeva u listu ********** ");
+        List<String> rijeciDuzeOdPetSlova =  new ArrayList<>();
 
-        for (int i=0; i<5; i++){
-            System.out.println("Unesite " + (i+1) + ". broj u listu: ");
-            listaBrojeva.add(scanner.nextInt());
-        }
+        int brojSlova = 0;
+        int ukupnaDuljinaSvihRijeciURecenici = 0;
+        String najduzaRijec = "";
+        double prosjek = 0;
+        String recenica = "";
 
-        if (jeLiListaSortirana(listaBrojeva)){
-            System.out.print("Lista je uzlazno sortirana: ");
-            System.out.println(listaBrojeva);
-        }
-        else{
-            System.out.print("Lista nije uzlazno sortirana: ");
-            System.out.println(listaBrojeva);
-        }
-    }
+        System.out.println("Unesite rečenicu: ");
+        recenica = scanner.nextLine();
 
-    private static Boolean jeLiListaSortirana(List<Integer> listaBrojeva){
-        for (int i=0; i< listaBrojeva.size()-1;i++){
-            if (listaBrojeva.get(i) > listaBrojeva.get(i + 1)){
-                return false;
+        String[] rijeci = recenica.split("\\s+");
+
+        for (String rijec : rijeci){
+            brojSlova=rijec.length();
+            ukupnaDuljinaSvihRijeciURecenici = ukupnaDuljinaSvihRijeciURecenici + brojSlova;
+
+            if (brojSlova>5) {
+                rijeciDuzeOdPetSlova.add(rijec);
             }
+
+            if (brojSlova > najduzaRijec.length()){
+                najduzaRijec = rijec;
+            }
+
         }
-        return true;
+        prosjek =  (double)ukupnaDuljinaSvihRijeciURecenici / rijeci.length;
+
+        System.out.println("Riječi duže od pet slova: " + rijeciDuzeOdPetSlova);
+        System.out.println("Najduža riječ: " + najduzaRijec);
+        System.out.println("Prosjek duljine svih riječi: " + prosjek);
+
     }
 }
