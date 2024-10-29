@@ -1,96 +1,33 @@
 
-/*
-2. Telefonski imenik:
-Napravi program koji simulira telefonski imenik koristeći dvije paralelne liste:
-Lista u koju se spremaju imena, i lista u kojoj se sprema brojevi
-Kod prvog odabira korisnik unosi ime i broj koji se spremaju u svoje liste
-Korisnik ima mogucnost odabira, te za svaki odabir treba omoguciti odredenu funkcionalnost sa slike.
-*/
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    Scanner scanner = new Scanner(System.in);
 
-    static Scanner scanner = new Scanner(System.in);
-    static List<String> imena = new ArrayList<>();
-    static List<String> brojevi = new ArrayList<>();
-    static int odabir;
+    // Tražimo unos iznosa od korisnika
+        System.out.print("Unesite iznos koji treba vratiti: ");
+    double iznos = scanner.nextDouble();
 
-    public static void main(String[] args) {
+    // Definiranje dostupnih apoena
+    double[] apoeni = {500, 200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01};
+    int[] brojNovcanica = new int[apoeni.length]; // spremamo broj svake novčanice/kovanice
 
-        System.out.println("\n***** Odaberite opciju: *****");
-
-        do {
-            System.out.println("\n1. Dodaj kontakt ");
-            System.out.println("2. Pretraži po imenu ");
-            System.out.println("3. Pretraži po broju ");
-            System.out.println("4. Izbriši sve ");
-            System.out.println("\n");
-
-            odabir = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (odabir){
-                case 1:
-                    dodavanjeKontakta();
-                    break;
-                case 2:
-                    pretrazivanjePoImenu();
-                    break;
-                case 3:
-                    pretrazivanjePoBroju();
-                    break;
-                case 4:
-                    izbrisiSve();
-                    break;
-                default:
-                    System.out.println("Krivi odabir. Pokušajte ponovno.");
-                    break;
-            }
-        }while(odabir == 1 || odabir == 2 || odabir == 3 || odabir == 4);
-    }
-
-    private static void dodavanjeKontakta(){
-        System.out.println("Unesite ime i prezime: ");
-        String imeIPrezime = scanner.nextLine();
-
-        System.out.println("Unesite telefonski broj: ");
-        String telBroj = scanner.nextLine();
-
-        imena.add(imeIPrezime);
-        brojevi.add(telBroj);
-        System.out.println("Kontakt je unesen.");
-    }
-
-    private static void pretrazivanjePoImenu(){
-        System.out.println("Unesite ime ili prezime ");
-        String imeZaPretragu = scanner.nextLine();
-
-        int i = imena.indexOf(imeZaPretragu);
-        if (i != -1) {
-            System.out.println("Pronađeni podaci: " + imena.get(i) + " " + brojevi.get(i));
-        } else {
-            System.out.println("Podaci nisu pronađeni.");
+    // Izračunavanje koliko novčanica i kovanica je potrebno
+        for (int i = 0; i < apoeni.length; i++) {
+        if (iznos >= apoeni[i]) {
+            brojNovcanica[i] = (int) (iznos / apoeni[i]);
+            iznos -= brojNovcanica[i] * apoeni[i];
+            iznos = Math.round(iznos * 100.0) / 100.0; // zaokruživanje zbog grešaka u decimalama
         }
     }
 
-    private static void pretrazivanjePoBroju() {
-        System.out.print("Unesite broj za pretragu: ");
-        String brojZaPretragu = scanner.nextLine();
-
-        int i = brojevi.indexOf(brojZaPretragu);
-        if (i != -1) {
-            System.out.println("Pronađeni kontakt: " + imena.get(i) + "  " + brojevi.get(i));
-        } else {
-            System.out.println("Podaci nisu pronađeni.");
+    // Ispis rezultata
+        System.out.println("Povrat novca:");
+        for (int i = 0; i < apoeni.length; i++) {
+        if (brojNovcanica[i] > 0) {
+            System.out.println(brojNovcanica[i] + " x " + apoeni[i] + " HRK");
         }
     }
-
-    private static void izbrisiSve() {
-        imena.clear();
-        brojevi.clear();
-        System.out.println("Obrisano.");
+    }
     }
 }
